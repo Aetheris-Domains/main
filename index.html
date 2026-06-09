@@ -174,7 +174,15 @@ async function checkAll() {
 document.addEventListener('DOMContentLoaded', () => {
     checkAll();
     document.getElementById('check-all-btn')?.addEventListener('click', checkAll);
-    setInterval(checkAll, 60000);
+
+    let autoTimer;
+    function scheduleNext() {
+        autoTimer = setTimeout(() => {
+            if (!document.hidden) checkAll();
+            scheduleNext();
+        }, 60000);
+    }
+    scheduleNext();
 });
 </script>
 </body>
