@@ -1,0 +1,83 @@
+function timeAgo(ts) {
+  const sec = Math.floor((Date.now() - ts) / 1000);
+  if (sec < 5) return 'just now';
+  if (sec < 60) return sec + 's ago';
+  return Math.floor(sec / 60) + 'm ago';
+}
+
+function formatNum(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000)   return (n / 1000).toFixed(1) + 'K';
+  return n.toLocaleString();
+}
+
+function renderCard(data) {
+  const up = data.status === 'up';
+  const code = data.code || '—';
+  const time = data.time ? data.time + 'ms' : '—';
+  const url = data.url;
+  return '<div class="rounded-2xl p-5 border transition-all glow cursor-pointer group" style="background:rgba(7,13,30,0.6);border-color:' + (up ? 'rgba(16,185,129,0.3)' : 'rgba(244,63,94,0.3)') + '" onclick="window.open(\'' + url + '\',\'_blank\')">' +
+    '<div class="flex items-start justify-between mb-4">' +
+      '<div class="flex items-center gap-3 min-w-0">' +
+        '<div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(111,166,216,0.15)">' +
+          '<svg data-lucide="globe" class="w-5 h-5 text-[#B6F1FF]"></svg>' +
+        '</div>' +
+        '<div class="min-w-0">' +
+          '<h3 class="text-sm font-bold text-white truncate group-hover:text-[#6FA6D8] transition-colors">' + data.name + '</h3>' +
+          '<p class="text-[11px] text-[#9FB0D1] truncate max-w-[200px]">' + data.url + '</p>' +
+        '</div>' +
+      '</div>' +
+      '<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0 ' + (up ? 'text-emerald-400' : 'text-rose-400') + '" style="background:' + (up ? 'rgba(16,185,129,0.1)' : 'rgba(244,63,94,0.1)') + '">' +
+        '<span class="w-1.5 h-1.5 rounded-full ' + (up ? 'bg-emerald-500' : 'bg-rose-500 animate-pulse') + '"></span>' +
+        (up ? 'Online' : 'Offline') +
+      '</span>' +
+    '</div>' +
+    '<div class="grid grid-cols-3 gap-3 text-center">' +
+      '<div class="rounded-lg py-2.5" style="background:rgba(0,0,0,0.3)">' +
+        '<p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Status</p>' +
+        '<p class="text-xs font-bold text-white mt-0.5">' + (up ? code : 'ERR') + '</p>' +
+      '</div>' +
+      '<div class="rounded-lg py-2.5" style="background:rgba(0,0,0,0.3)">' +
+        '<p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Response</p>' +
+        '<p class="text-xs font-bold text-white mt-0.5">' + time + '</p>' +
+      '</div>' +
+      '<div class="rounded-lg py-2.5" style="background:rgba(0,0,0,0.3)">' +
+        '<p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Checked</p>' +
+        '<p class="text-xs font-bold text-white mt-0.5">' + (data.checked ? timeAgo(data.checked) : 'never') + '</p>' +
+      '</div>' +
+    '</div>' +
+    (data.error && !up ? '<p class="text-[10px] text-rose-400/70 mt-2 text-center truncate">' + data.error + '</p>' : '') +
+    '<div class="mt-3 pt-3 border-t border-white/5 text-center">' +
+      '<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#6FA6D8] group-hover:text-[#B6F1FF] transition-colors">' +
+        '<svg data-lucide="external-link" class="w-3.5 h-3.5"></svg>' +
+        'Visit ' + data.name.split('(')[0].trim() +
+      '</span>' +
+    '</div>' +
+  '</div>';
+}
+
+function skeleton() {
+  const box = function(w) { return '<div class="h-3 ' + w + ' rounded animate-pulse" style="background:#1a1d30"></div>'; };
+  return '<div class="rounded-2xl p-5 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">' +
+    '<div class="flex items-center gap-3 mb-4">' +
+      '<div class="w-10 h-10 rounded-xl animate-pulse shrink-0" style="background:#1a1d30"></div>' +
+      '<div class="flex-1 space-y-1.5">' +
+        box('w-28') + box('w-44') +
+      '</div>' +
+    '</div>' +
+    '<div class="grid grid-cols-3 gap-3">' +
+      '<div class="rounded-lg py-3" style="background:rgba(0,0,0,0.3)"><div class="h-3 w-12 rounded animate-pulse mx-auto" style="background:#1a1d30"></div></div>'.repeat(3) +
+    '</div>' +
+  '</div>';
+}
+
+function updateStats(data) {
+  document.getElementById('stat-live').textContent = data.liveUsers ?? '?';
+  document.getElementById('stat-today').textContent = data.requestsToday != null ? formatNum(data.requestsToday) : '?';
+  document.getElementById('stat-total').textContent = data.requestsTotal != null ? formatNum(data.requestsTotal) : '?';
+  document.getElementById('stat-errors').textContent = data.errorRate != null ? data.errorRate + '%' : '?';
+}
+
+function updateSummary(up, total) {
+  document.getElementById('domains-summary').textContent = up + '/' + total + ' online';
+}
