@@ -1,8 +1,7 @@
 async function checkDomain(domain) {
   try {
-    const start = Date.now();
-    const res = await fetch(CONFIG.workerCheck + '?url=' + encodeURIComponent(domain.url), {
-      signal: AbortSignal.timeout(CONFIG.checkTimeout)
+    const res = await fetch(window.CONFIG.workerCheck + '?url=' + encodeURIComponent(domain.url), {
+      signal: AbortSignal.timeout(window.CONFIG.checkTimeout)
     });
     const data = await res.json();
     return { ...domain, status: data.status, code: data.code, time: data.time, error: data.error, checked: Date.now() };
@@ -12,15 +11,16 @@ async function checkDomain(domain) {
 }
 
 async function checkAllDomains() {
-  return Promise.all(CONFIG.domains.map(checkDomain));
+  return Promise.all(window.CONFIG.domains.map(checkDomain));
 }
 
 async function loadMetrics() {
   try {
-    const res = await fetch(CONFIG.metricsUrl, { signal: AbortSignal.timeout(10000) });
+    const res = await fetch(window.CONFIG.metricsUrl, { signal: AbortSignal.timeout(10000) });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     return await res.json();
   } catch {
     return null;
   }
 }
+console.log('API loaded');
