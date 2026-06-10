@@ -1,4 +1,4 @@
-const CONFIG = {
+window.CONFIG = {
   domains: [
     { name: 'Aetheris (GitHub Pages)', url: 'https://sharktubey.github.io/Aetheris/', type: 'primary' },
     { name: 'Aetheris (Wispbyte)',    url: 'https://aetheris.wispbyte.app/',   type: 'mirror' },
@@ -9,3 +9,4 @@ const CONFIG = {
   checkTimeout: 15000,
   refreshInterval: 60000
 };
+console.log('Config loaded');
