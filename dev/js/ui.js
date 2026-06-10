@@ -1,7 +1,7 @@
 function renderCard(data) {
   const up = data.status === 'up';
   const timeColor = data.time < 200 ? 'text-emerald-400' : data.time < 500 ? 'text-amber-400' : 'text-rose-400';
-  return '<div class="rounded-2xl p-5 border transition-all glow cursor-pointer group animate-fade-in" style="background:rgba(7,13,30,0.6);border-color:' + (up ? 'rgba(16,185,129,0.3)' : 'rgba(244,63,94,0.3)') + '" onclick="window.open('' + data.url + '','_blank')">' +
+  return '<div class="rounded-2xl p-5 border transition-all glow cursor-pointer group animate-fade-in" style="background:rgba(7,13,30,0.6);border-color:' + (up ? 'rgba(16,185,129,0.3)' : 'rgba(244,63,94,0.3)') + '" onclick="window.open(\'' + data.url + '\',\'_blank\')">' +
     '<div class="flex items-start justify-between mb-4">' +
       '<div class="flex items-center gap-3 min-w-0">' +
         '<div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(111,166,216,0.15)">' +
