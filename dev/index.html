@@ -8,10 +8,10 @@
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@1.17.0/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="./css/style.css?v=3">
+    <link rel="stylesheet" href="./css/style.css?v=4">
 </head>
 <body class="bg-[#070D1E] text-slate-100 antialiased selection:bg-[#6FA6D8] selection:text-white min-h-screen flex flex-col overflow-x-hidden">
-
+    <div id="global-health-bar" class="health-bar"></div>
     <div class="fixed top-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#6FA6D8]/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
     <div class="fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#B6F1FF]/5 rounded-full blur-[180px] pointer-events-none -z-10"></div>
 
@@ -48,17 +48,54 @@
 
             <div id="domains-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"></div>
         </div>
-        
-        <!-- Metrics Section here -->
+
+        <section class="max-w-[1400px] mx-auto px-4 md:px-8 mt-14">
+            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white flex items-center gap-3 mb-8">
+                <svg data-lucide="bar-chart-3" class="w-6 h-6 md:w-7 md:h-7 text-[#B6F1FF]"></svg>
+                Live Metrics
+            </h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8" id="metrics-stats">
+                <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+                    <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Live Users</p>
+                    <p class="text-2xl font-extrabold text-white mt-1" id="stat-live">—</p>
+                </div>
+                <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+                    <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Requests Today</p>
+                    <p class="text-2xl font-extrabold text-white mt-1" id="stat-today">—</p>
+                </div>
+                <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+                    <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Error Rate</p>
+                    <p class="text-2xl font-extrabold text-white mt-1" id="stat-errors">—</p>
+                </div>
+                <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+                    <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">All Time</p>
+                    <p class="text-2xl font-extrabold text-white mt-1" id="stat-total">—</p>
+                </div>
+            </div>
+            <div class="rounded-2xl p-4 md:p-6 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+                <p class="text-xs font-semibold text-[#9FB0D1] uppercase tracking-wider mb-3">Requests (Last 24h)</p>
+                <div class="relative" style="height:200px">
+                    <canvas id="metrics-chart"></canvas>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="border-t border-zinc-900 py-6">
-        <!-- Footer here -->
+        <div class="max-w-[1400px] mx-auto px-4 md:px-8 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg overflow-hidden shadow-md shadow-[#6F62C6]/10">
+                    <img src="https://sharktubey.github.io/Aetheris/assets/logo.png" alt="Aetheris" class="w-full h-full object-contain">
+                </div>
+                <span class="text-sm font-bold tracking-wider text-white">AETHERIS</span>
+            </div>
+            <p class="text-[11px] text-[#9FB0D1]">&copy; 2026 Aetheris</p>
+        </div>
     </footer>
 
-    <script src="./js/config.js?v=3"></script>
-    <script src="./js/api.js?v=3"></script>
-    <script src="./js/ui.js?v=3"></script>
-    <script src="./js/app.js?v=3"></script>
+    <script src="./js/config.js?v=4"></script>
+    <script src="./js/api.js?v=4"></script>
+    <script src="./js/ui.js?v=4"></script>
+    <script src="./js/app.js?v=4"></script>
 </body>
 </html>
