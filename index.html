@@ -1,314 +1,99 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domain Status — Aetheris</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="https://sharktubey.github.io/Aetheris/assets/logo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <script src="https://unpkg.com/lucide@1.17.0/dist/umd/lucide.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glow { box-shadow: 0 0 60px rgba(111,166,216,0.15); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domain Status — Aetheris</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://sharktubey.github.io/Aetheris/assets/logo.png">
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/lucide@1.17.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-[#070D1E] text-slate-100 antialiased selection:bg-[#6FA6D8] selection:text-white min-h-screen flex flex-col overflow-x-hidden">
+<body>
+  <div class="bg-glow-top"></div>
+  <div class="bg-glow-bottom"></div>
 
-    <div class="fixed top-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#6FA6D8]/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#B6F1FF]/5 rounded-full blur-[180px] pointer-events-none -z-10"></div>
-
-    <header class="border-b border-zinc-900 py-5">
-        <div class="max-w-[1400px] mx-auto px-4 md:px-8">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-[#6F62C6]/20">
-                    <img src="https://sharktubey.github.io/Aetheris/assets/logo.png" alt="Aetheris" class="w-full h-full object-contain">
-                </div>
-                <span class="text-2xl font-extrabold tracking-wider text-white">AETHERIS</span>
-                <span class="hidden sm:inline text-[10px] font-bold uppercase tracking-widest text-[#6FA6D8] bg-[#6FA6D8]/10 px-2.5 py-1 rounded-full">Domains</span>
-            </div>
+  <header class="border-b border-zinc-900 py-5">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-8">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-[#6F62C6]/20">
+          <img src="https://sharktubey.github.io/Aetheris/assets/logo.png" alt="Aetheris" class="w-full h-full object-contain">
         </div>
-    </header>
+        <span class="text-2xl font-extrabold tracking-wider text-white">AETHERIS</span>
+        <span class="hidden sm:inline text-[10px] font-bold uppercase tracking-widest text-[#6FA6D8] bg-[#6FA6D8]/10 px-2.5 py-1 rounded-full">Domains</span>
+      </div>
+    </div>
+  </header>
 
-    <main class="flex-1 py-14 md:py-20">
-        <div class="max-w-[1400px] mx-auto px-4 md:px-8">
-            <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-5 mb-10">
-                <div>
-                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white flex items-center gap-4">
-                        <svg data-lucide="server" class="w-8 h-8 md:w-9 md:h-9 text-[#B6F1FF]"></svg>
-                        Domain Status
-                    </h1>
-                    <p class="text-sm md:text-base text-[#9FB0D1] mt-2">Live health checks for all Aetheris deployments.</p>
-                </div>
-                <div class="flex items-center gap-4">
-                    <span id="domains-summary" class="text-xs text-[#9FB0D1] font-semibold"></span>
-                    <button id="check-all-btn" class="flex items-center gap-2 px-5 py-3 bg-[#6FA6D8]/20 border border-[#6FA6D8]/30 rounded-xl text-xs font-semibold text-[#B6F1FF] hover:bg-[#6FA6D8]/30 hover:border-[#6FA6D8]/50 transition-all cursor-pointer">
-                        <svg data-lucide="refresh-cw" class="w-4 h-4"></svg>
-                        Check All
-                    </button>
-                </div>
-            </div>
-
-            <div id="domains-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-                <!-- Populated by JS -->
-            </div>
+  <main class="flex-1 py-14 md:py-20">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-8">
+      <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-5 mb-10">
+        <div>
+          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white flex items-center gap-4">
+            <svg data-lucide="server" class="w-8 h-8 md:w-9 md:h-9 text-[#B6F1FF]"></svg>
+            Domain Status
+          </h1>
+          <p class="text-sm md:text-base text-[#9FB0D1] mt-2">Live health checks for all Aetheris deployments.</p>
         </div>
-
-        <section class="max-w-[1400px] mx-auto px-4 md:px-8 mt-14">
-            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white flex items-center gap-3 mb-8">
-                <svg data-lucide="bar-chart-3" class="w-6 h-6 md:w-7 md:h-7 text-[#B6F1FF]"></svg>
-                Live Metrics
-            </h2>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8" id="metrics-stats">
-                <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
-                    <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Live Users</p>
-                    <p class="text-2xl font-extrabold text-white mt-1" id="stat-live">—</p>
-                </div>
-                <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
-                    <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Requests Today</p>
-                    <p class="text-2xl font-extrabold text-white mt-1" id="stat-today">—</p>
-                </div>
-                <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
-                    <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Error Rate</p>
-                    <p class="text-2xl font-extrabold text-white mt-1" id="stat-errors">—</p>
-                </div>
-                <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
-                    <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">All Time</p>
-                    <p class="text-2xl font-extrabold text-white mt-1" id="stat-total">—</p>
-                </div>
-            </div>
-            <div class="rounded-2xl p-4 md:p-6 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
-                <p class="text-xs font-semibold text-[#9FB0D1] uppercase tracking-wider mb-3">Requests (Last 24h)</p>
-                <div class="relative" style="height:200px">
-                    <canvas id="metrics-chart"></canvas>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="border-t border-zinc-900 py-6">
-        <div class="max-w-[1400px] mx-auto px-4 md:px-8 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-7 h-7 rounded-lg overflow-hidden shadow-md shadow-[#6F62C6]/10">
-                    <img src="https://sharktubey.github.io/Aetheris/assets/logo.png" alt="Aetheris" class="w-full h-full object-contain">
-                </div>
-                <span class="text-sm font-bold tracking-wider text-white">AETHERIS</span>
-            </div>
-            <p class="text-[11px] text-[#9FB0D1]">&copy; 2026 Aetheris</p>
+        <div class="flex items-center gap-4">
+          <span id="domains-summary" class="text-xs text-[#9FB0D1] font-semibold"></span>
+          <button id="check-all-btn" class="flex items-center gap-2 px-5 py-3 bg-[#6FA6D8]/20 border border-[#6FA6D8]/30 rounded-xl text-xs font-semibold text-[#B6F1FF] hover:bg-[#6FA6D8]/30 hover:border-[#6FA6D8]/50 transition-all cursor-pointer">
+            <svg data-lucide="refresh-cw" class="w-4 h-4"></svg>
+            Check All
+          </button>
         </div>
-    </footer>
+      </div>
+      <div id="domains-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"></div>
+    </div>
 
-<script>
-const DOMAINS = [
-    { name: 'Aetheris (GitHub Pages)', url: 'https://sharktubey.github.io/Aetheris/', type: 'primary' },
-    { name: 'Aetheris (Wispbyte)', url: 'https://aetheris.wispbyte.app/', type: 'mirror' },
-    { name: 'Aetheris (Vercel)', url: 'https://aetheris-pi.vercel.app/', type: 'mirror' }
-];
-
-const WORKER_CHECK = 'https://tmdb-proxy.sharktubey.workers.dev/api/check';
-
-function html(strings, ...values) {
-    return strings.reduce((acc, str, i) => acc + str + (values[i] || ''), '');
-}
-
-async function checkDomain(domain) {
-    try {
-        const start = Date.now();
-        const res = await fetch(`${WORKER_CHECK}?url=${encodeURIComponent(domain.url)}`, { signal: AbortSignal.timeout(15000) });
-        const data = await res.json();
-        return { ...domain, status: data.status, code: data.code, time: data.time, error: data.error, checked: Date.now() };
-    } catch (e) {
-        return { ...domain, status: 'down', error: e.message, checked: Date.now() };
-    }
-}
-
-function timeAgo(ts) {
-    const sec = Math.floor((Date.now() - ts) / 1000);
-    if (sec < 5) return 'just now';
-    if (sec < 60) return sec + 's ago';
-    const min = Math.floor(sec / 60);
-    return min + 'm ago';
-}
-
-function renderCard(data) {
-    const up = data.status === 'up';
-    const code = data.code || '—';
-    const time = data.time ? data.time + 'ms' : '—';
-    const url = data.url;
-    return html`
-        <div class="rounded-2xl p-5 border transition-all glow cursor-pointer group" style="background:rgba(7,13,30,0.6);border-color:${up ? 'rgba(16,185,129,0.3)' : 'rgba(244,63,94,0.3)'}" onclick="window.open('${url}','_blank')">
-            <div class="flex items-start justify-between mb-4">
-                <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(111,166,216,0.15)">
-                        <svg data-lucide="globe" class="w-5 h-5 text-[#B6F1FF]"></svg>
-                    </div>
-                    <div class="min-w-0">
-                        <h3 class="text-sm font-bold text-white truncate group-hover:text-[#6FA6D8] transition-colors">${data.name}</h3>
-                        <p class="text-[11px] text-[#9FB0D1] truncate max-w-[200px]">${data.url}</p>
-                    </div>
-                </div>
-                <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0 ${up ? 'text-emerald-400' : 'text-rose-400'}" style="background:${up ? 'rgba(16,185,129,0.1)' : 'rgba(244,63,94,0.1)'}">
-                    <span class="w-1.5 h-1.5 rounded-full ${up ? 'bg-emerald-500' : 'bg-rose-500 animate-pulse'}"></span>
-                    ${up ? 'Online' : 'Offline'}
-                </span>
-            </div>
-            <div class="grid grid-cols-3 gap-3 text-center">
-                ${['Status', 'Response', 'Checked'].map(label => html`
-                    <div class="rounded-lg py-2.5" style="background:rgba(0,0,0,0.3)">
-                        <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">${label}</p>
-                        <p class="text-xs font-bold text-white mt-0.5">${label === 'Status' ? (up ? code : 'ERR') : label === 'Response' ? time : (data.checked ? timeAgo(data.checked) : 'never')}</p>
-                    </div>
-                `).join('')}
-            </div>
-            ${data.error && !up ? `<p class="text-[10px] text-rose-400/70 mt-2 text-center truncate">${data.error}</p>` : ''}
-            <div class="mt-3 pt-3 border-t border-white/5 text-center">
-                <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#6FA6D8] group-hover:text-[#B6F1FF] transition-colors">
-                    <svg data-lucide="external-link" class="w-3.5 h-3.5"></svg>
-                    Visit ${data.name.split('(')[0].trim()}
-                </span>
-            </div>
+    <section class="max-w-[1400px] mx-auto px-4 md:px-8 mt-14">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white flex items-center gap-3 mb-8">
+        <svg data-lucide="bar-chart-3" class="w-6 h-6 md:w-7 md:h-7 text-[#B6F1FF]"></svg>
+        Live Metrics
+      </h2>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8" id="metrics-stats">
+        <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+          <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Live Users</p>
+          <p class="text-2xl font-extrabold text-white mt-1" id="stat-live">—</p>
         </div>
-    `;
-}
-
-function skeleton() {
-    const box = (w) => `<div class="h-3 ${w} rounded animate-pulse" style="background:#1a1d30"></div>`;
-    return html`
-        <div class="rounded-2xl p-5 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-xl animate-pulse shrink-0" style="background:#1a1d30"></div>
-                <div class="flex-1 space-y-1.5">
-                    ${box('w-28')} ${box('w-44')}
-                </div>
-            </div>
-            <div class="grid grid-cols-3 gap-3">
-                ${'<div class="rounded-lg py-3" style="background:rgba(0,0,0,0.3)"><div class="h-3 w-12 rounded animate-pulse mx-auto" style="background:#1a1d30"></div></div>'.repeat(3)}
-            </div>
+        <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+          <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Requests Today</p>
+          <p class="text-2xl font-extrabold text-white mt-1" id="stat-today">—</p>
         </div>
-    `;
-}
+        <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+          <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Error Rate</p>
+          <p class="text-2xl font-extrabold text-white mt-1" id="stat-errors">—</p>
+        </div>
+        <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+          <p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">All Time</p>
+          <p class="text-2xl font-extrabold text-white mt-1" id="stat-total">—</p>
+        </div>
+      </div>
+      <div class="rounded-2xl p-4 md:p-6 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+        <p class="text-xs font-semibold text-[#9FB0D1] uppercase tracking-wider mb-3">Requests (Last 24h)</p>
+        <div class="relative" style="height:200px">
+          <canvas id="metrics-chart"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
 
-async function checkAll() {
-    const grid = document.getElementById('domains-grid');
-    const summary = document.getElementById('domains-summary');
-    const btn = document.getElementById('check-all-btn');
-    if (!grid) return;
+  <footer class="border-t border-zinc-900 py-6">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-8 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-lg overflow-hidden shadow-md shadow-[#6F62C6]/10">
+          <img src="https://sharktubey.github.io/Aetheris/assets/logo.png" alt="Aetheris" class="w-full h-full object-contain">
+        </div>
+        <span class="text-sm font-bold tracking-wider text-white">AETHERIS</span>
+      </div>
+      <p class="text-[11px] text-[#9FB0D1]">&copy; 2026 Aetheris</p>
+    </div>
+  </footer>
 
-    btn.disabled = true;
-    btn.classList.add('opacity-50', 'pointer-events-none');
-    grid.innerHTML = DOMAINS.map(skeleton).join('');
-
-    const results = await Promise.all(DOMAINS.map(checkDomain));
-    const up = results.filter(r => r.status === 'up').length;
-
-    grid.innerHTML = results.map(renderCard).join('');
-    lucide.createIcons();
-    summary.textContent = `${up}/${results.length} online`;
-    btn.disabled = false;
-    btn.classList.remove('opacity-50', 'pointer-events-none');
-}
-
-const METRICS_URL = 'https://tmdb-proxy.sharktubey.workers.dev/api/metrics';
-let metricsChart = null;
-
-function formatNum(n) {
-    if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
-    if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
-    return n.toLocaleString();
-}
-
-async function loadMetrics() {
-    try {
-        const res = await fetch(METRICS_URL, { signal: AbortSignal.timeout(10000) });
-        if (!res.ok) throw new Error('Failed');
-        const data = await res.json();
-
-        document.getElementById('stat-live').textContent = data.liveUsers;
-        document.getElementById('stat-today').textContent = formatNum(data.requestsToday);
-        document.getElementById('stat-total').textContent = formatNum(data.requestsTotal);
-        document.getElementById('stat-errors').textContent = data.errorRate + '%';
-
-        const ctx = document.getElementById('metrics-chart').getContext('2d');
-
-        const labels = data.history.map(h => {
-            const y = h.hour.slice(0, 4);
-            const m = h.hour.slice(4, 6);
-            const d = h.hour.slice(6, 8);
-            const hh = h.hour.slice(8, 10);
-            return `${m}/${d} ${hh}:00`;
-        });
-        const values = data.history.map(h => h.requests);
-
-        if (metricsChart) {
-            metricsChart.data.labels = labels;
-            metricsChart.data.datasets[0].data = values;
-            metricsChart.update('none');
-        } else {
-            metricsChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels,
-                    datasets: [{
-                        label: 'Requests',
-                        data: values,
-                        borderColor: '#6FA6D8',
-                        backgroundColor: (c) => {
-                            const g = c.chart.ctx.createLinearGradient(0, 0, 0, 200);
-                            g.addColorStop(0, 'rgba(111,166,216,0.25)');
-                            g.addColorStop(1, 'rgba(111,166,216,0)');
-                            return g;
-                        },
-                        fill: true,
-                        tension: 0.3,
-                        pointRadius: 2,
-                        pointHoverRadius: 5,
-                        borderWidth: 2,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: {
-                            ticks: { color: '#9FB0D1', font: { size: 9 }, maxTicksLimit: 12 },
-                            grid: { color: 'rgba(255,255,255,0.04)' }
-                        },
-                        y: {
-                            ticks: { color: '#9FB0D1', font: { size: 9 } },
-                            grid: { color: 'rgba(255,255,255,0.04)' },
-                            beginAtZero: true
-                        }
-                    },
-                    interaction: { intersect: false, mode: 'index' }
-                }
-            });
-        }
-    } catch {
-        document.getElementById('stat-live').textContent = '?';
-        document.getElementById('stat-today').textContent = '?';
-        document.getElementById('stat-total').textContent = '?';
-        document.getElementById('stat-errors').textContent = '?';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    checkAll();
-    loadMetrics();
-    document.getElementById('check-all-btn')?.addEventListener('click', checkAll);
-
-    let autoTimer;
-    function scheduleNext() {
-        autoTimer = setTimeout(() => {
-            if (!document.hidden) { checkAll(); loadMetrics(); }
-            scheduleNext();
-        }, 60000);
-    }
-    scheduleNext();
-});
-</script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
