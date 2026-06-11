@@ -38,13 +38,6 @@ function timeAgo(ts) {
   return Math.floor(sec / 60) + 'm ago';
 }
 
-function updateHealthBar(results) {
-  const bar = document.getElementById('global-health-bar');
-  const upCount = results.filter(function(r) { return r.status === 'up'; }).length;
-  const percent = (upCount / results.length) * 100;
-  bar.innerHTML = '<div class="bg-emerald-500" style="width:' + percent + '%"></div><div class="bg-rose-500" style="width:' + (100 - percent) + '%"></div>';
-}
-
 function updateSummary(up, total) {
   const el = document.getElementById('domains-summary');
   if (el) el.textContent = up + '/' + total + ' online';
