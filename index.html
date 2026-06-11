@@ -1,1 +1,88 @@
-<!DOCTYPE html><html><head><script src="https://unpkg.com/@tailwindcss/browser@4"></script><script src="https://unpkg.com/lucide@1.17.0/dist/umd/lucide.min.js"></script><link rel="stylesheet" href="css/style.css"></head><body><div id="global-health-bar" class="health-bar"></div><header id="main-header" class="border-b border-zinc-900"><div class="max-w-[1400px] mx-auto px-8 py-4 text-center font-extrabold text-white">AETHERIS STATUS</div></header><main class="max-w-[1400px] mx-auto p-8"><div id="domains-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div></main><script src="js/config.js"></script><script src="js/api.js"></script><script src="js/ui.js"></script><script src="js/app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domain Status — Aetheris</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://sharktubey.github.io/Aetheris/assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/lucide@1.17.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>body{font-family:'Plus Jakarta Sans',sans-serif}.glow{box-shadow:0 0 60px rgba(111,166,216,0.15)}</style>
+</head>
+<body class="bg-[#070D1E] text-slate-100 antialiased selection:bg-[#6FA6D8] selection:text-white min-h-screen flex flex-col overflow-x-hidden">
+  <div id="global-health-bar" class="health-bar"></div>
+  <div class="fixed top-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#6FA6D8]/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+  <div class="fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#B6F1FF]/5 rounded-full blur-[180px] pointer-events-none -z-10"></div>
+
+  <header id="main-header" class="border-b border-zinc-900 py-5">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-8">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-[#6F62C6]/20">
+          <img src="https://sharktubey.github.io/Aetheris/assets/logo.png" alt="Aetheris" class="w-full h-full object-contain">
+        </div>
+        <span class="text-2xl font-extrabold tracking-wider text-white">AETHERIS</span>
+        <span class="hidden sm:inline text-[10px] font-bold uppercase tracking-widest text-[#6FA6D8] bg-[#6FA6D8]/10 px-2.5 py-1 rounded-full">Domains</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 py-14 md:py-20">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-8">
+      <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-5 mb-10">
+        <div>
+          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white flex items-center gap-4">
+            <svg data-lucide="server" class="w-8 h-8 md:w-9 md:h-9 text-[#B6F1FF]"></svg>
+            Domain Status
+          </h1>
+          <p class="text-sm md:text-base text-[#9FB0D1] mt-2">Live health checks for all Aetheris deployments.</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <span id="domains-summary" class="text-xs text-[#9FB0D1] font-semibold"></span>
+          <button id="check-all-btn" class="flex items-center gap-2 px-5 py-3 bg-[#6FA6D8]/20 border border-[#6FA6D8]/30 rounded-xl text-xs font-semibold text-[#B6F1FF] hover:bg-[#6FA6D8]/30 hover:border-[#6FA6D8]/50 transition-all cursor-pointer">
+            <svg data-lucide="refresh-cw" class="w-4 h-4"></svg>
+            Check All
+          </button>
+        </div>
+      </div>
+      <div id="domains-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"></div>
+    </div>
+
+    <section class="max-w-[1400px] mx-auto px-4 md:px-8 mt-14">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white flex items-center gap-3 mb-8">
+        <svg data-lucide="bar-chart-3" class="w-6 h-6 md:w-7 md:h-7 text-[#B6F1FF]"></svg>
+        Live Metrics
+      </h2>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8" id="metrics-stats">
+        <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)"><p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Live Users</p><p class="text-2xl font-extrabold text-white mt-1" id="stat-live">—</p></div>
+        <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)"><p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Requests Today</p><p class="text-2xl font-extrabold text-white mt-1" id="stat-today">—</p></div>
+        <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)"><p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">Error Rate</p><p class="text-2xl font-extrabold text-white mt-1" id="stat-errors">—</p></div>
+        <div class="rounded-2xl p-4 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)"><p class="text-[10px] text-[#9FB0D1] uppercase tracking-wider font-semibold">All Time</p><p class="text-2xl font-extrabold text-white mt-1" id="stat-total">—</p></div>
+      </div>
+      <div class="rounded-2xl p-4 md:p-6 border" style="background:rgba(7,13,30,0.6);border-color:rgba(255,255,255,0.06)">
+        <p class="text-xs font-semibold text-[#9FB0D1] uppercase tracking-wider mb-3">Requests (Last 24h)</p>
+        <div class="relative" style="height:200px"><canvas id="metrics-chart"></canvas></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-6">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-8 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-lg overflow-hidden shadow-md shadow-[#6F62C6]/10"><img src="https://sharktubey.github.io/Aetheris/assets/logo.png" alt="Aetheris" class="w-full h-full object-contain"></div>
+        <span class="text-sm font-bold tracking-wider text-white">AETHERIS</span>
+      </div>
+      <p class="text-[11px] text-[#9FB0D1]">&copy; 2026 Aetheris</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
