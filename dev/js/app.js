@@ -38,6 +38,7 @@ async function refreshMetrics() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  lucide.createIcons();
   refreshDomains();
   refreshMetrics();
   var btn = document.getElementById('check-all-btn');
